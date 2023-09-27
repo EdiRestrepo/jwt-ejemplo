@@ -1,11 +1,12 @@
 const User = require("../schemas/user");
 const jwt = require("jsonwebtoken");
+const { getUserByEmail } = require("../service/user");
 require("dotenv").config();
 const secret = process.env.SECRET;
 
 const signupCtrl = async (req, res, next) => {
     const { username, email, password } = req.body;
-    const user = await User.findOne({ email });
+    const user = await getUserByEmail(email);
     if (user) {
       return res.status(409).json({
         status: "error",
